@@ -5,32 +5,40 @@ import math
 
 
 class ProductPage(BasePage):
+    # добавить в корзину
     def add_to_basket_page(self):
         self.should_be_add_in_basket_page()
         login_link = self.browser.find_element(*ProductPageLocators.ADD_BASKET_BUTTON)
         login_link.click()
 
+    # проверить добавлено ли в корзину
     def checking_the_basket(self, name_product, price_product):
         self.basket_cost_comparison(price_product)
         self.should_be_product_in_basket(name_product)
 
+    # возвращает имя товара со страницы товара
     def return_name_product(self):
         return self.browser.find_element(*ProductPageLocators.NAME_PRODUCT).text
 
+    # возвращает цену товара со страницы товара
     def return_price_product(self):
         return self.browser.find_element(*ProductPageLocators.PRICE_PRODUCT).text
 
+    # проверяет наличие кнопки "добавить в корзину"
     def should_be_add_in_basket_page(self):
         assert self.is_element_present(*ProductPageLocators.ADD_BASKET_BUTTON), "Basket button is not presented"
 
+    # сверяет название товара
     def should_be_product_in_basket(self, name_product):
         banner_text = self.browser.find_element(*ProductPageLocators.PRODUCT_IN_BASKET).text
         assert f'{name_product} был добавлен в вашу корзину.' == banner_text
 
+    # сверяет цену
     def basket_cost_comparison(self, price_product):
         price_basket = self.browser.find_element(*ProductPageLocators.PRICE_BASKET).text
         assert price_product == price_basket
 
+    # вводит "капчу"
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
         x = alert.text.split(" ")[2]
