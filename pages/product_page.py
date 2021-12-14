@@ -5,9 +5,9 @@ import math
 
 
 class ProductPage(BasePage):
-    def go_to_basket_page(self):
-        self.should_be_basket_button()
-        login_link = self.browser.find_element(*ProductPageLocators.BASKET_BUTTON)
+    def add_to_basket_page(self):
+        self.should_be_add_in_basket_page()
+        login_link = self.browser.find_element(*ProductPageLocators.ADD_BASKET_BUTTON)
         login_link.click()
 
     def checking_the_basket(self, name_product, price_product):
@@ -20,8 +20,8 @@ class ProductPage(BasePage):
     def return_price_product(self):
         return self.browser.find_element(*ProductPageLocators.PRICE_PRODUCT).text
 
-    def should_be_basket_button(self):
-        assert self.is_element_present(*ProductPageLocators.BASKET_BUTTON), "Basket button is not presented"
+    def should_be_add_in_basket_page(self):
+        assert self.is_element_present(*ProductPageLocators.ADD_BASKET_BUTTON), "Basket button is not presented"
 
     def should_be_product_in_basket(self, name_product):
         banner_text = self.browser.find_element(*ProductPageLocators.PRODUCT_IN_BASKET).text

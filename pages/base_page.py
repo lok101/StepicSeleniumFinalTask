@@ -1,7 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from .locators import BasePageLocators, LoginPageLocators
+from .locators import BasePageLocators, LoginPageLocators, ProductPageLocators, RegistrationFormLocators
 
 
 class BasePage:
@@ -10,6 +10,15 @@ class BasePage:
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
+
+    def click_to_exit_button(self):
+        exit_button = self.browser.find_element(*RegistrationFormLocators.EXIT_BUTTON)
+        exit_button.click()
+
+    def go_to_basket_page(self):
+        self.should_be_basket_button()
+        basket_page = self.browser.find_element(*ProductPageLocators.BASKET_BUTTON)
+        basket_page.click()
 
     def go_to_login_page(self):
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
@@ -41,6 +50,13 @@ class BasePage:
 
     def open(self):
         self.browser.get(self.url)
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
+
+    def should_be_basket_button(self):
+        assert self.is_element_present(*ProductPageLocators.BASKET_BUTTON), "Basket button is not presented"
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
